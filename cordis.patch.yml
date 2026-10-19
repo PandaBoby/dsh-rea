@@ -1,0 +1,29 @@
+# dsh-rea bundle patch.
+#
+# Inserts one row: the generic MCP bridge connected to `rea mcp`. Turning this
+# bundle OFF in the Plugins page removes the whole row, so the `rea` tool
+# namespace disappears from every session and its tool schemas stop being sent.
+#
+# The row is addressed by its Loader id `rea-mcp`. To override the config from
+# your own profile patch, restate the WHOLE config: a patch replaces a row's
+# config instead of merging into it.
+#
+#   - id: rea-mcp
+#     config:
+#       serverName: rea
+#       transport: stdio
+#       command: npx
+#       args: ["-y", "rea-agents@6.5.0", "mcp"]   # pin a version instead of @latest
+#       toolCallTimeoutMs: 600000                 # long decompilation calls
+#       failOnStartupError: false
+- insert:
+    - id: rea-mcp
+      name: "@deepseek-ai/dsh-mcp-client"
+      config:
+        serverName: rea
+        transport: stdio
+        command: npx
+        args:
+          - -y
+          - rea-agents@latest
+          - mcp

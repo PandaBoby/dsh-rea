@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "REA 逆向分析工具 (dsh-rea)",
+    "description": "把 REA（Reverse Engineer Anything）MCP 服务器挂载成 `rea` 工具命名空间：约 200 个二进制、固件、Electron/JavaScript、浏览器与托管运行时的分析工具。默认不适合在非逆向会话里常开，因为它们的 schema 会在每次请求里占用约 20 万 tokens 上下文。一个开关即可启用，由 npx 自动拉取最新 rea-agents 版本。"
+  }
+}

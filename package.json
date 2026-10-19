@@ -1,0 +1,39 @@
+{
+  "name": "dsh-rea",
+  "version": "0.1.0",
+  "description": "Mounts the REA (Reverse Engineer Anything) MCP server as the `rea` tool namespace in every session, with one switch in the Plugins page. Ships no engine and no tool code of its own: it only declares the connection, and the newest rea-agents release is fetched by npx when the switch is on.",
+  "icon": "icon.svg",
+  "type": "module",
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "icon.svg",
+    "locale/*.json",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-bundle",
+    "deepseek-harness",
+    "mcp",
+    "rea",
+    "reverse-engineering"
+  ],
+  "license": "MIT"
+}
