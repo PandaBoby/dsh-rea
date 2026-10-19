@@ -33,7 +33,7 @@ figure moves with the REA release; it is never zero while the bundle is on.
 From GitHub:
 
 ```
-dsh plugin add github:OWNER/dsh-rea
+dsh plugin add github:PandaBoby/dsh-rea
 ```
 
 Or from a local checkout, which is the form to use while developing this package:
@@ -42,7 +42,8 @@ Or from a local checkout, which is the form to use while developing this package
 dsh plugin add /absolute/path/to/dsh-rea
 ```
 
-Installation **enables** the bundle, so `rea` tools appear right away. Grab the
+Installation also **selects** the bundle, so `rea` tools appear right away; switch it
+off in the Plugins page when you are done. Grab the
 matching skill from `rea-agents` (or from the REA repository) if you want the
 model to have REA's own procedure guidance; this package deliberately does not
 duplicate it.

@@ -30,7 +30,7 @@
 从 GitHub 安装：
 
 ```
-dsh plugin add github:OWNER/dsh-rea
+dsh plugin add github:PandaBoby/dsh-rea
 ```
 
 或从本地目录安装（开发这个包时用这种形式）：
@@ -39,7 +39,7 @@ dsh plugin add github:OWNER/dsh-rea
 dsh plugin add /absolute/path/to/dsh-rea
 ```
 
-安装后会**自动启用**该 bundle，`rea` 工具立刻可用。如果需要 REA 自带的流程指引，
+安装会同时**选中**该 bundle，`rea` 工具立刻可用；用完在插件页关掉即可。如果需要 REA 自带的流程指引，
 再单独安装 `rea-agents` 提供的 skill；本包刻意不复制它。
 
 REA 服务本身不在安装时下载。桥接会执行 `npx -y rea-agents@latest mcp`，
