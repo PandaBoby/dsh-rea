@@ -14,16 +14,18 @@
 该页列出的是 **bundle**（带 `dsh.bundle.patch` 的包），而不是散落的配置行。
 把它包成 bundle，才变成一个可以点开、查完再点回去的开关。
 
-开关之所以重要，是因为 `rea` 命名空间在开启期间很贵：约 200 个工具 schema 会跟着
-**每一次**请求发送。
+开关之所以重要，是因为 `rea` 命名空间在开启期间很贵：255 个工具 schema 会跟着
+**每一次**请求发送（`rea-agents@6.9.0` 实测）。
 
 | 状态 | 发送的工具数 | 工具定义占用 |
 | --- | --- | --- |
 | dsh-rea 关闭 | 约 40 个内置工具 | 约 2K–8K tokens |
-| dsh-rea 开启 | 约 40 + 约 207 | **约 200K tokens** |
+| dsh-rea 开启 | 约 40 + 255 | **约 200K+ tokens** |
 
 以 `rea-agents@6.5.0` 在 1M 窗口上实测：schema 序列化约 790 KB，harness 估值为
-约 207K tokens，约占窗口的 20%。该数字随 REA 版本变化，但只要开关是开的就不会是零。
+约 207K tokens，约占窗口的 20%。该数字随 REA 版本变化：6.9.0 的同一份列表有 255 个
+工具，`tools/list` 原始 JSON 为 4.44 MB，而 6.5.0 是 207 个 / 2.94 MB。
+升级后重新测量；只要开关是开的就不会是零。
 
 ## 安装
 
@@ -44,6 +46,11 @@ dsh plugin add /absolute/path/to/dsh-rea
 
 REA 服务本身不在安装时下载。桥接会执行 `npx -y rea-agents@latest mcp`，
 因此 npm 会在开关打开后的首次工具同步时拉取最新版本，之后复用缓存。
+
+**Node 版本。** `rea-agents` 6.8.0 起要求 Node
+`^22.23.4 || ^24.22.1 || >=26.12.1`。运行时版本不够时，服务会打印这条要求后直接退出，
+一个工具都不提供，桥接也就没有东西可注册。开启前先核对：
+`npx -y rea-agents@latest --version`。
 
 ## 开关
 
@@ -68,7 +75,7 @@ REA 服务本身不在安装时下载。桥接会执行 `npx -y rea-agents@lates
     serverName: rea
     transport: stdio
     command: npx
-    args: ["-y", "rea-agents@6.5.0", "mcp"]
+    args: ["-y", "rea-agents@6.9.0", "mcp"]
     toolCallTimeoutMs: 600000
     failOnStartupError: false
 ```

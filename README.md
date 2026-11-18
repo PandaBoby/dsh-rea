@@ -16,17 +16,19 @@ invisible to the Plugins page — the page lists **bundles** (packages that carr
 `dsh.bundle.patch`), not free-standing rows. Wrapping the row in a bundle is what
 turns it into a switch you can click, or click back off after the investigation.
 
-The switch matters because the `rea` namespace is expensive while it is on: about
-200 tool schemas travel in **every** request.
+The switch matters because the `rea` namespace is expensive while it is on: 255
+tool schemas travel in **every** request (`rea-agents@6.9.0`).
 
 | State | Tools sent | Tool-definition context |
 | --- | --- | --- |
 | dsh-rea off | ~40 built-in | ~2K–8K tokens |
-| dsh-rea on | ~40 + ~207 | **~200K tokens** |
+| dsh-rea on | ~40 + 255 | **~200K+ tokens** |
 
 Measured against `rea-agents@6.5.0` on a 1M-token window: the schemas serialize to
 ~790 KB, which the harness prices at ~207K tokens, roughly 20% of the window. The
-figure moves with the REA release; it is never zero while the bundle is on.
+figure moves with the REA release: at 6.9.0 the same list holds 255 tools and its
+raw `tools/list` JSON weighs 4.44 MB, against 207 tools and 2.94 MB at 6.5.0.
+Re-measure after an upgrade; it is never zero while the bundle is on.
 
 ## Install
 
@@ -52,6 +54,11 @@ The REA server itself is not downloaded at install time. The bridge runs
 `npx -y rea-agents@latest mcp`, so npm fetches the newest release on the first
 tool sync after the switch is turned on (and reuses its cache afterwards).
 
+**Node version.** `rea-agents` 6.8.0 and later require Node
+`^22.23.4 || ^24.22.1 || >=26.12.1`. On an older runtime the server prints that
+requirement and exits without serving any tool, so the bridge has nothing to
+register. Check before switching on: `npx -y rea-agents@latest --version`.
+
 ## Turn it off and on
 
 **Plugins page → Installed plugins → dsh-rea** — flip the switch.
@@ -59,7 +66,7 @@ tool sync after the switch is turned on (and reuses its cache afterwards).
 - **On** — the MCP bridge starts, lists REA's tools, and registers them under
   `mcp__rea__*`.
 - **Off** — the row is withdrawn, the child process is disposed, and the tool
-  schemas stop being sent. Later requests are ~200K tokens lighter.
+  schemas stop being sent. Later requests are ~200K tokens lighter (more at 6.9.0).
 
 The switch is a profile-level setting: it applies to every session of the profile,
 including sessions that are already open. Turning it off while a REA call is
@@ -80,7 +87,7 @@ timeout for slow decompilation, or make startup failures loud:
     serverName: rea
     transport: stdio
     command: npx
-    args: ["-y", "rea-agents@6.5.0", "mcp"]
+    args: ["-y", "rea-agents@6.9.0", "mcp"]
     toolCallTimeoutMs: 600000
     failOnStartupError: false
 ```
