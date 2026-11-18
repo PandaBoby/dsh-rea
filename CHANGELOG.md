@@ -1,0 +1,45 @@
+# Changelog
+
+All notable changes to this package are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
+to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.1] - 2026-11-18
+
+### Added
+
+- `npm run validate` (`scripts/validate.mjs`): checks the required manifest fields
+  and every path they point at, that `cordis.patch.yml` is one `insert` of the
+  `rea-mcp` row using an `npx … mcp` command, that the `en` and `zh` locale cards
+  expose the same keys, that the icon is an SVG, and that the newest changelog
+  entry matches the manifest version.
+- A GitHub Actions workflow running that check on Node 22 and 24.
+- A `Requirements` and a `Troubleshooting` section, and a note on adding the bundle
+  to `dsh.profile.bundles` when it was installed as a plain dependency.
+
+### Changed
+
+- `engines.node` is now `^22.23.4 || ^24.22.1 || >=26.12.1`, the range
+  `rea-agents` 6.8.0 and later accept. Older runtimes make the engine exit without
+  serving tools, so the old `>=20` advertised a runtime that could not work.
+- Documentation and both locale cards measure `rea-agents@6.9.0`: 255 tools, 4.44 MB
+  of raw `tools/list` JSON, up from 207 tools and 2.94 MB at 6.5.0.
+- The pinned-version example in the `cordis.patch.yml` comment moved from 6.5.0
+  to 6.9.0.
+
+### Fixed
+
+- The English and Chinese READMEs disagreed about almost nothing before; they now
+  carry the same sections, the same measurements and the same troubleshooting table.
+
+## [0.1.0] - 2026-10-19
+
+### Added
+
+- Initial bundle: one `@deepseek-ai/dsh-mcp-client` row connected to
+  `npx -y rea-agents@latest mcp`, addressed as `rea-mcp` so the Plugins page can
+  switch the whole `rea` tool namespace on and off.
+- Locale cards for `en` and `zh`, and a custom icon.
+
+[0.1.1]: https://github.com/PandaBoby/dsh-rea/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/PandaBoby/dsh-rea/releases/tag/v0.1.0

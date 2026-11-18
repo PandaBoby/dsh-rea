@@ -1,6 +1,6 @@
 {
   "name": "dsh-rea",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mounts the REA (Reverse Engineer Anything) MCP server as the `rea` tool namespace in every session, with one switch in the Plugins page. Ships no engine and no tool code of its own: it only declares the connection, and the newest rea-agents release is fetched by npx when the switch is on.",
   "icon": "icon.svg",
   "type": "module",
@@ -16,15 +16,19 @@
     "locale/*.json",
     "README.md",
     "README.zh.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
   },
   "engines": {
-    "node": ">=20"
+    "node": "^22.23.4 || ^24.22.1 || >=26.12.1"
   },
   "keywords": [
     "dsh",
@@ -35,5 +39,17 @@
     "rea",
     "reverse-engineering"
   ],
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PandaBoby/dsh-rea.git"
+  },
+  "homepage": "https://github.com/PandaBoby/dsh-rea#readme",
+  "bugs": {
+    "url": "https://github.com/PandaBoby/dsh-rea/issues"
+  },
+  "author": "PandaBoby (https://github.com/PandaBoby)",
+  "license": "MIT",
+  "devDependencies": {
+    "yaml": "^2.9.1"
+  }
 }

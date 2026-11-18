@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "REA reverse-engineering tools (dsh-rea)",
-    "description": "Mounts the REA (Reverse Engineer Anything) MCP server as the `rea` tool namespace: about 200 binary, firmware, Electron/JavaScript, browser and managed-runtime analysis tools. Off by default outside reverse-engineering sessions, because their schemas cost roughly 200K tokens of context in every request. Turns on in one switch, and npx fetches the newest rea-agents release."
+    "description": "Mounts the REA (Reverse Engineer Anything) MCP server as the `rea` tool namespace: 255 analysis tools for binaries, firmware, Electron/JavaScript, browsers and managed runtimes. Their schemas cost roughly 200K tokens of context in every request, so keep this off outside reverse-engineering sessions. One switch turns it on, and npx fetches the newest rea-agents release."
   }
 }

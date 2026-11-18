@@ -8,12 +8,18 @@
 # your own profile patch, restate the WHOLE config: a patch replaces a row's
 # config instead of merging into it.
 #
+# `args` must start with -y and end with the `mcp` subcommand. What sits between
+# them is the engine spec: `rea-agents@latest` follows every release, or pin it.
+# Note that `npx` needs Node ^22.23.4 || ^24.22.1 || >=26.12.1 once the engine is
+# 6.8.0 or newer; on an older runtime the server prints the requirement and exits
+# with no tools registered.
+#
 #   - id: rea-mcp
 #     config:
 #       serverName: rea
 #       transport: stdio
 #       command: npx
-#       args: ["-y", "rea-agents@6.5.0", "mcp"]   # pin a version instead of @latest
+#       args: ["-y", "rea-agents@6.9.0", "mcp"]   # pin a version instead of @latest
 #       toolCallTimeoutMs: 600000                 # long decompilation calls
 #       failOnStartupError: false
 - insert:
