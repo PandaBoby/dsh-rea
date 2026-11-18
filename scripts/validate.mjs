@@ -144,6 +144,24 @@ for (const [name, text] of [["README.md", readme], ["README.zh.md", readmeZh]]) 
   }
 }
 
+
+// Table-of-contents links are the first thing a reader clicks; a broken one is invisible in review.
+function slugify(heading) {
+  return heading
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .replace(/\s+/g, "-");
+}
+
+for (const [name, text] of [["README.md", readme], ["README.zh.md", readmeZh]]) {
+  const headings = (text.match(/^#{2,3}\s+.+$/gm) || []).map(function (line) { return slugify(line.replace(/^#+\s+/, "")); });
+  const anchors = (text.match(/\]\(#[^)]+\)/g) || []).map(function (link) { return link.slice(3, -1); });
+  for (const anchor of anchors) {
+    check(headings.includes(anchor), name + ": in-page link #" + anchor + " matches no heading");
+  }
+}
+
 // A workflow that cannot parse fails silently until the next push.
 const workflowsDir = join(root, ".github", "workflows");
 if (existsSync(workflowsDir)) {

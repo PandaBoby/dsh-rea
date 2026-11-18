@@ -4,6 +4,20 @@ All notable changes to this package are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `npm run validate` now resolves every in-page anchor against the heading slugs, so a
+  table-of-contents link cannot rot unnoticed.
+
+### Changed
+
+- Both READMEs restructured after the upstream REA documentation design: a centered hero
+  with badges, in-page navigation and the single install command; an `[!IMPORTANT]` cost
+  warning above the fold; a quick start of three named steps; troubleshooting followed by
+  a collapsible FAQ; and a fixed closing order (further reading → contributing → license).
+
 ## [0.1.1] - 2026-11-18
 
 ### Added

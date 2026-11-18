@@ -1,103 +1,110 @@
+<div align="center">
+
+[中文](./README.zh.md) · **English**
+
+<img src="./icon.svg" width="88" height="88" alt="dsh-rea icon" />
+
 # dsh-rea
 
-[中文](./README.zh.md) · English
+### 255 reverse-engineering tools behind one switch.
 
-![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin bundle that mounts the
+**REA (Reverse Engineer Anything)** MCP server as the `rea` tool namespace — on while you are
+investigating, off the moment you are done.
+
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 ![node](https://img.shields.io/badge/node-%5E22.23.4%20%7C%7C%20%5E24.22.1%20%7C%7C%20%3E%3D26.12.1-informational)
 ![validate](https://github.com/PandaBoby/dsh-rea/actions/workflows/validate.yml/badge.svg)
+[![engine](https://img.shields.io/badge/engine-rea--agents%406.9.0-5c4ee5)](https://www.npmjs.com/package/rea-agents)
 
-A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin bundle
-that mounts the **REA (Reverse Engineer Anything)** MCP server as the `rea` tool
-namespace, behind one switch in the **Plugins** page.
+[Quick start](#quick-start) · [Cost](#cost) · [Why a bundle](#why-a-bundle) · [Requirements](#requirements) · [Configuration](#configuration) · [Troubleshooting](#troubleshooting) · [FAQ](#faq) · [Development](#development)
 
-- **What it is** — one MCP bridge row, packaged so the Plugins page can show it as a card.
-- **What it is not** — no analysis engine, no tool implementation, no model code. Every
-  REA tool comes from the `rea-agents` npm package at run time.
+<code>dsh plugin add github:PandaBoby/dsh-rea</code>
 
-## Why a bundle instead of a YAML snippet
+</div>
 
-Dropping the same six lines into `~/.dsh/cordis.patch.yml` works, but that row is
-invisible to the Plugins page — the page lists **bundles** (packages that carry a
-`dsh.bundle.patch`), not free-standing rows. Wrapping the row in a bundle is what
-turns it into a switch you can click, and click back off after the investigation.
+> [!IMPORTANT]
+> While the switch is on, all 255 REA tool schemas travel in **every** request — roughly 200K+
+> tokens of context at `rea-agents@6.9.0`. That is the whole point of the switch: turn it off when
+> the investigation ends.
 
-The switch matters because the `rea` namespace is expensive while it is on: 255
-tool schemas travel in **every** request (`rea-agents@6.9.0`).
+**What it is** — one MCP bridge row, packaged so the Plugins page can show it as a card.
+**What it is not** — no analysis engine, no tool implementation, no model code. Every REA tool comes
+from the `rea-agents` npm package at run time.
+
+## Quick start
+
+### 1. Install
+
+```sh
+dsh plugin add github:PandaBoby/dsh-rea
+```
+
+`dsh plugin add` also selects the bundle, so the `rea` tools appear right away. Working on this
+package itself? Install from your checkout instead:
+```sh
+dsh plugin add /absolute/path/to/dsh-rea
+```
+
+### 2. Make sure the engine can start
+
+```sh
+npx -y rea-agents@latest --version   # prints 6.9.0 or newer on a supported runtime
+```
+
+The engine is not downloaded at install time: the bridge runs `npx -y rea-agents@latest mcp`, so the
+first tool sync after the switch is on fetches the newest release and caches it. If this command
+fails, see [Requirements](#requirements).
+
+### 3. Ask for something
+
+**Plugins page → Installed plugins → dsh-rea → On**, then prompt as usual:
+
+```text
+Work out how the search feature in <app> works, show the evidence, then implement something similar in my project.
+```
+
+Tools register as `mcp__rea__*`. When the investigation is over, turn the switch back off.
+
+## Cost
+
+The `rea` namespace is expensive because its schemas are sent with every request:
 
 | State | Tools sent | Tool-definition context |
 | --- | --- | --- |
 | dsh-rea off | built-in tools only | ~2K–8K tokens |
 | dsh-rea on | built-in + 255 | **~200K+ tokens** |
 
-Measured against `rea-agents@6.5.0` on a 1M-token window: the schemas serialize to
-~790 KB, which the harness prices at ~207K tokens, roughly 20% of the window. The
-figure moves with the REA release: at 6.9.0 the same list holds 255 tools and its
-raw `tools/list` JSON weighs 4.44 MB, against 207 tools and 2.94 MB at 6.5.0.
-Re-measure after an upgrade; it is never zero while the bundle is on.
+Measured against `rea-agents@6.5.0` on a 1M-token window: the schemas serialize to ~790 KB, which
+the harness prices at ~207K tokens, roughly 20% of the window. The figure moves with the REA release:
+at 6.9.0 the same list holds 255 tools and its raw `tools/list` JSON weighs 4.44 MB, against 207
+tools and 2.94 MB at 6.5.0.
+
+To measure it yourself, the context gauge above the composer splits usage into system prompt, tool
+definitions and messages: compare the tool-definition line with the switch on and off. Or read the
+newest `request/header` in `~/.dsh/sessions/` and count the `mcp__rea__*` entries.
+
+## Why a bundle
+
+Dropping the same six lines into `~/.dsh/cordis.patch.yml` works, but that row is invisible to the
+Plugins page — the page lists **bundles** (packages that carry a `dsh.bundle.patch`), not
+free-standing rows. Wrapping the row in a bundle is what turns it into a switch you can click, and
+click back off after the investigation.
 
 ## Requirements
 
 - DeepSeek Harness with a Plugins page (Desktop and Web profiles both have one).
-- **Node `^22.23.4 || ^24.22.1 || >=26.12.1`.** `rea-agents` 6.8.0 and later refuse
-  to start on anything older: the server prints the requirement and exits, so the
-  bridge ends up with zero tools instead of an error.
-- Network access the first time the switch is turned on, so `npx` can fetch the
-  newest `rea-agents` release. Later starts reuse the npm cache.
-
-Check the runtime before you rely on it:
-
-```sh
-npx -y rea-agents@latest --version   # prints 6.9.0 or newer on a supported runtime
-```
-
-## Install
-
-From GitHub:
-
-```sh
-dsh plugin add github:PandaBoby/dsh-rea
-```
-
-Or from a local checkout, which is the form to use while developing this package:
-
-```sh
-dsh plugin add /absolute/path/to/dsh-rea
-```
-
-`dsh plugin add` also selects the bundle, so `rea` tools appear right away. If you
-instead add `dsh-rea` to a profile as a plain dependency, add it to that profile's
-`dsh.profile.bundles` list as well — a bundle that is only a dependency is never
-composed, and the `rea` namespace never appears.
-
-Installation does not download the REA server. The bridge runs
-`npx -y rea-agents@latest mcp`, so npm fetches the newest release on the first tool
-sync after the switch is on, and reuses its cache afterwards.
-
-Grab the matching skill from `rea-agents` (or from the
-[REA repository](https://github.com/morluto/rea)) if you want the model to have REA's
-own procedure guidance; this package deliberately does not duplicate it.
-
-## Turn it off and on
-
-**Plugins page → Installed plugins → dsh-rea** — flip the switch.
-
-- **On** — the MCP bridge starts, lists REA's tools, and registers them under
-  `mcp__rea__*`.
-- **Off** — the row is withdrawn, the child process is disposed, and the tool
-  schemas stop being sent. Later requests are ~200K tokens lighter (more at 6.9.0).
-
-The switch is a profile-level setting: it applies to every session of the profile,
-including sessions that are already open. Turning it off while a REA call is running
-cancels that call.
-
-No restart is needed when HMR is enabled (the default in Desktop and Web profiles).
-Without HMR, the change applies on the next start.
+- **Node `^22.23.4 || ^24.22.1 || >=26.12.1`.** `rea-agents` 6.8.0 and later refuse to start on
+  anything older: the server prints the requirement and exits, so the bridge ends up with zero tools
+  instead of an error.
+- Network access the first time the switch is turned on, so `npx` can fetch the newest release.
+  Later starts reuse the npm cache.
 
 ## Configuration
 
-Defaults live in [`cordis.patch.yml`](./cordis.patch.yml). Override the `rea-mcp`
-row from your profile patch when you need to pin a REA version, raise the call
-timeout for slow decompilation, or make startup failures loud:
+Defaults live in [`cordis.patch.yml`](./cordis.patch.yml). Override the `rea-mcp` row from your
+profile patch when you need to pin a REA version, raise the call timeout for slow decompilation, or
+make startup failures loud:
 
 ```yaml
 - id: rea-mcp
@@ -110,8 +117,8 @@ timeout for slow decompilation, or make startup failures loud:
     failOnStartupError: false
 ```
 
-A patch **replaces** a row's whole `config` rather than merging into it, so restate
-every key you want to keep.
+A patch **replaces** a row's whole `config` rather than merging into it, so restate every key you
+want to keep.
 
 | Key | Default | Meaning |
 | --- | --- | --- |
@@ -125,17 +132,58 @@ every key you want to keep.
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| No `rea` namespace at all | Bundle not selected in the profile | Turn the switch on; if you added it as a dependency, add it to `dsh.profile.bundles` |
+| No `rea` namespace at all | Bundle not selected in the profile | Turn the switch on; if you added it as a plain dependency, add it to `dsh.profile.bundles` too |
 | Namespace exists, zero tools | The engine refused to start — usually an unsupported Node, or `npx` could not reach the registry on first sync | Run `npx -y rea-agents@latest --version` in the same environment; set `failOnStartupError: true` to surface the next failure |
 | Tools appear, calls time out | Default 60 s per-call budget | Raise `toolCallTimeoutMs` |
 | You need a fixed engine | `@latest` drifts with every release | Pin `rea-agents@x.y.z` in `args` |
 
-## Measuring the cost
+If you added `dsh-rea` to a profile as a plain dependency rather than through `dsh plugin add`, the
+bundle is never composed: the profile's `dsh.profile.bundles` list is what selects it.
 
-The context gauge above the composer splits usage into system prompt, tool
-definitions and messages. Compare the tool-definition line with the switch on and
-off; the difference is this bundle's footprint. Alternatively read the newest
-`request/header` in `~/.dsh/sessions/` and count the `mcp__rea__*` entries.
+## FAQ
+
+<details>
+<summary><strong>Do I have to install REA separately?</strong></summary>
+
+No. The bundle only declares the connection; `npx` fetches the newest `rea-agents` release on the
+first sync after the switch is on. REA's own procedure guidance for the model is a separate skill,
+deliberately not duplicated here.
+
+</details>
+
+<details>
+<summary><strong>Does it upload the app I am analysing?</strong></summary>
+
+This package contains no code — it declares one MCP row. Analysis runs locally through REA; what
+reaches a model is the tool results, under your own provider's data policy.
+
+</details>
+
+<details>
+<summary><strong>What happens to a running call when I turn the switch off?</strong></summary>
+
+The row is withdrawn, the child process is disposed and the call is cancelled. Later requests are
+~200K tokens lighter. With HMR on (the Desktop and Web default) no restart is needed; without HMR
+the change applies on the next start.
+
+</details>
+
+<details>
+<summary><strong>Why did the tool count change from 207 to 255?</strong></summary>
+
+The schema count follows the engine, not this package. `rea-agents@6.9.0` serves 255 tools; the
+[bundle patch](./cordis.patch.yml) tracks `@latest`, so the number moves when REA ships. Pin a
+version if you need it stable.
+
+</details>
+
+<details>
+<summary><strong>How do I uninstall it?</strong></summary>
+
+Plugins page → dsh-rea → **Remove**. Removal withdraws the row and allows deleting the package.
+`npx` caches live outside the profile and stay until npm or `npx` cleans them up.
+
+</details>
 
 ## Development
 
@@ -144,23 +192,29 @@ npm ci
 npm run validate
 ```
 
-`npm run validate` checks everything that can rot without anyone noticing: required
-manifest fields and the paths they point at; that `cordis.patch.yml` parses as one
-`insert` of the `rea-mcp` row using an `npx … mcp` command; that the `en` and `zh`
-locale cards expose the same keys; that the icon is a real SVG; and that the newest
-`CHANGELOG.md` entry matches `package.json`. CI runs the same check on Node 22 and 24.
+`npm run validate` checks everything that can rot without anyone noticing: required manifest fields
+and the paths they point at; that `cordis.patch.yml` parses as one `insert` of the `rea-mcp` row
+using an `npx … mcp` command; that the `en` and `zh` locale cards expose the same keys; that the icon
+is a real SVG; and that the newest [`CHANGELOG.md`](./CHANGELOG.md) entry matches `package.json`.
+CI runs the same check on Node 22 and 24.
 
-There is no source code to test here: the engine lives in `rea-agents`, and this
-repository only declares how to reach it. Bug reports about analysis behaviour belong
-to the [REA repository](https://github.com/morluto/rea).
+There is no source code to test here: the engine lives in `rea-agents`, and this repository only
+declares how to reach it.
 
-## Uninstall
+## Further reading
 
-Plugins page → dsh-rea → **Remove**. Removal withdraws the row and allows deleting the
-package. `npx` caches live outside the profile and stay until npm or `npx` cleans them
-up.
+- [REA repository](https://github.com/morluto/rea) — what the tools do and how to drive them.
+- [`rea-agents` on npm](https://www.npmjs.com/package/rea-agents) — releases and version history.
+- [`CHANGELOG.md`](./CHANGELOG.md) — what changed in this bundle, and when.
+
+## Contributing
+
+Issues and pull requests are welcome: [PandaBoby/dsh-rea](https://github.com/PandaBoby/dsh-rea/issues).
+Run `npm ci && npm run validate` before opening a pull request; CI runs the same command on Node 22
+and 24. Bug reports about analysis behaviour belong to the
+[REA repository](https://github.com/morluto/rea) instead.
 
 ## License
 
-MIT — see [LICENSE](./LICENSE). REA itself is a separate project under its own license;
-this package only declares how to connect to it.
+MIT — see [LICENSE](./LICENSE). REA itself is a separate project under its own license; this package
+only declares how to connect to it.
