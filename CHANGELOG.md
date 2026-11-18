@@ -29,8 +29,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
-- The English and Chinese READMEs disagreed about almost nothing before; they now
-  carry the same sections, the same measurements and the same troubleshooting table.
+- The English and Chinese READMEs had drifted apart — different sections, different
+  numbers — and now carry the same structure, measurements and troubleshooting table.
 
 ## [0.1.0] - 2026-10-19
 
