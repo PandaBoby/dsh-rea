@@ -13,13 +13,14 @@
 调查时打开，查完就关。
 
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/@panda-boby%2Fdsh-rea?color=cb3837&label=npm)](https://www.npmjs.com/package/@panda-boby/dsh-rea)
 ![node](https://img.shields.io/badge/node-%5E22.23.4%20%7C%7C%20%5E24.22.1%20%7C%7C%20%3E%3D26.12.1-informational)
 ![validate](https://github.com/PandaBoby/dsh-rea/actions/workflows/validate.yml/badge.svg)
 [![engine](https://img.shields.io/badge/engine-rea--agents%406.9.0-5c4ee5)](https://www.npmjs.com/package/rea-agents)
 
 [快速开始](#快速开始) · [成本](#成本) · [为什么做成 bundle](#为什么做成-bundle) · [运行要求](#运行要求) · [配置](#配置) · [排错](#排错) · [常见问题](#常见问题) · [开发](#开发)
 
-<code>dsh plugin add github:PandaBoby/dsh-rea</code>
+<code>dsh plugin --profile desktop add @panda-boby/dsh-rea</code>
 
 </div>
 
@@ -42,14 +43,28 @@
 
 ### 1. 安装
 
+从 npm registry 安装：
+
 ```sh
-dsh plugin add github:PandaBoby/dsh-rea
+dsh plugin --profile desktop add @panda-boby/dsh-rea
 ```
 
-`dsh plugin add` 会同时选中该 bundle，`rea` 工具立刻可用。正在改这个包本身？从本地目录安装：
+或直接从 GitHub 安装：
+
 ```sh
-dsh plugin add /absolute/path/to/dsh-rea
+dsh plugin --profile desktop add github:PandaBoby/dsh-rea
 ```
+
+`--profile` 指定要改的 profile（`desktop`、`web` 等）。安装会同时选中该 bundle，`rea` 工具立刻
+可用。正在改这个包本身？从本地目录安装：
+
+```sh
+dsh plugin --profile desktop add /absolute/path/to/dsh-rea
+```
+
+> [!NOTE]
+> npm 上**不带 scope** 的 `dsh-rea` 属于另一位发布者（`dushudou/dsh-rea`）。本仓库只以
+> `@panda-boby/dsh-rea` 发布。
 
 ### 2. 确认引擎能起来
 

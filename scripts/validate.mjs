@@ -37,7 +37,10 @@ const pkg = readJson("package.json");
 if (pkg) {
   const required = ["name", "version", "description", "license", "repository", "homepage", "bugs", "author", "engines", "files", "exports"];
   for (const field of required) check(Boolean(pkg[field]), "package.json: missing " + field);
-  check(pkg.name === "dsh-rea", "package.json: name must be dsh-rea");
+  check(/^(@[a-z0-9-]+\/)?dsh-rea$/.test(pkg.name || ""), "package.json: name must be dsh-rea or @scope/dsh-rea");
+  if ((pkg.name || "").startsWith("@")) {
+    check(pkg.publishConfig && pkg.publishConfig.access === "public", "package.json: a scoped name needs publishConfig.access = public");
+  }
   check(SEMVER.test(pkg.version || ""), "package.json: version must be x.y.z");
   check(pkg.license === "MIT", "package.json: license must be MIT");
   check(pkg.type === "module", "package.json: type must be module");

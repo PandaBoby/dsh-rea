@@ -13,13 +13,14 @@ A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin bun
 investigating, off the moment you are done.
 
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/@panda-boby%2Fdsh-rea?color=cb3837&label=npm)](https://www.npmjs.com/package/@panda-boby/dsh-rea)
 ![node](https://img.shields.io/badge/node-%5E22.23.4%20%7C%7C%20%5E24.22.1%20%7C%7C%20%3E%3D26.12.1-informational)
 ![validate](https://github.com/PandaBoby/dsh-rea/actions/workflows/validate.yml/badge.svg)
 [![engine](https://img.shields.io/badge/engine-rea--agents%406.9.0-5c4ee5)](https://www.npmjs.com/package/rea-agents)
 
 [Quick start](#quick-start) · [Cost](#cost) · [Why a bundle](#why-a-bundle) · [Requirements](#requirements) · [Configuration](#configuration) · [Troubleshooting](#troubleshooting) · [FAQ](#faq) · [Development](#development)
 
-<code>dsh plugin add github:PandaBoby/dsh-rea</code>
+<code>dsh plugin --profile desktop add @panda-boby/dsh-rea</code>
 
 </div>
 
@@ -44,15 +45,29 @@ Three artefacts, one chain: the Plugins page carries the **dsh-rea** card, the c
 
 ### 1. Install
 
+From the npm registry:
+
 ```sh
-dsh plugin add github:PandaBoby/dsh-rea
+dsh plugin --profile desktop add @panda-boby/dsh-rea
 ```
 
-`dsh plugin add` also selects the bundle, so the `rea` tools appear right away. Working on this
-package itself? Install from your checkout instead:
+Or straight from GitHub:
+
 ```sh
-dsh plugin add /absolute/path/to/dsh-rea
+dsh plugin --profile desktop add github:PandaBoby/dsh-rea
 ```
+
+`--profile` names the profile to change (`desktop`, `web`, …). The install also selects the
+bundle, so the `rea` tools appear right away. Working on this package itself? Install from your
+checkout instead:
+
+```sh
+dsh plugin --profile desktop add /absolute/path/to/dsh-rea
+```
+
+> [!NOTE]
+> The **unscoped** `dsh-rea` on npm belongs to another publisher (`dushudou/dsh-rea`). This
+> repository publishes as `@panda-boby/dsh-rea` only.
 
 ### 2. Make sure the engine can start
 

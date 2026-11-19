@@ -4,10 +4,13 @@ All notable changes to this package are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.0] - 2026-11-19
 
 ### Added
 
+- Published to npm as `@panda-boby/dsh-rea` with `publishConfig.access = public`; the package
+  name moved from the unscoped `dsh-rea`, which belongs to an unrelated publisher
+  (`dushudou/dsh-rea`), to the `@panda-boby` scope.
 - A 1280×640 banner (`docs/assets/banner.png`, SVG source beside it) used as the README hero and
   as the repository social preview, plus `docs/assets/how-it-connects.png`, a figure showing how
   the Plugins-page switch reaches the `rea` namespace through the `rea-mcp` row.
@@ -22,6 +25,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   with badges, in-page navigation and the single install command; an `[!IMPORTANT]` cost
   warning above the fold; a quick start of three named steps; troubleshooting followed by
   a collapsible FAQ; and a fixed closing order (further reading → contributing → license).
+- Install commands in both READMEs now carry the `--profile <name>` flag `dsh plugin` requires,
+  and lead with the registry install; the GitHub and local-checkout forms stay documented.
+- A `[!NOTE]` callout states that the unscoped `dsh-rea` on npm is not this repository.
 
 ## [0.1.1] - 2026-11-18
 

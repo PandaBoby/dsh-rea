@@ -1,6 +1,6 @@
 {
-  "name": "dsh-rea",
-  "version": "0.1.1",
+  "name": "@panda-boby/dsh-rea",
+  "version": "0.2.0",
   "description": "Mounts the REA (Reverse Engineer Anything) MCP server as the `rea` tool namespace in every session, with one switch in the Plugins page. Ships no engine and no tool code of its own: it only declares the connection, and the newest rea-agents release is fetched by npx when the switch is on.",
   "icon": "icon.svg",
   "type": "module",
@@ -52,5 +52,8 @@
   "license": "MIT",
   "devDependencies": {
     "yaml": "^2.9.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
