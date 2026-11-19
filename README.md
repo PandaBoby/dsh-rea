@@ -2,7 +2,7 @@
 
 [中文](./README.zh.md) · **English**
 
-<img src="./icon.svg" width="88" height="88" alt="dsh-rea icon" />
+<img src="./docs/assets/banner.png" width="880" alt="dsh-rea — 255 reverse-engineering tools behind one switch" />
 
 # dsh-rea
 
@@ -31,6 +31,14 @@ investigating, off the moment you are done.
 **What it is** — one MCP bridge row, packaged so the Plugins page can show it as a card.
 **What it is not** — no analysis engine, no tool implementation, no model code. Every REA tool comes
 from the `rea-agents` npm package at run time.
+
+<div align="center">
+<img src="./docs/assets/how-it-connects.png" width="860" alt="The Plugins-page switch, the rea-mcp bridge row and the rea tool namespace" />
+</div>
+
+Three artefacts, one chain: the Plugins page carries the **dsh-rea** card, the card composes the
+**rea-mcp** bridge row, and the row is what brings the **`rea`** namespace into a session — with
+255 tool schemas attached while it is on, and none while it is off.
 
 ## Quick start
 

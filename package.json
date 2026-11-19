@@ -17,7 +17,8 @@
     "README.md",
     "README.zh.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "docs/assets/*"
   ],
   "scripts": {
     "validate": "node scripts/validate.mjs"

@@ -8,6 +8,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A 1280×640 banner (`docs/assets/banner.png`, SVG source beside it) used as the README hero and
+  as the repository social preview, plus `docs/assets/how-it-connects.png`, a figure showing how
+  the Plugins-page switch reaches the `rea` namespace through the `rea-mcp` row.
+- `npm run validate` now also resolves every `<img src>` in the READMEs, and the assets ship in
+  the tarball via a `docs/assets/*` entry in `files`.
 - `npm run validate` now resolves every in-page anchor against the heading slugs, so a
   table-of-contents link cannot rot unnoticed.
 

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="440" viewBox="0 0 1240 440" role="img" aria-label="How dsh-rea connects the Plugins page switch to the rea tool namespace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1b31"/>
+      <stop offset="100%" stop-color="#060c17"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b39bfb"/>
+      <stop offset="100%" stop-color="#5b9cf8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1240" height="440" rx="18" fill="url(#bg)"/>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+    <text x="44" y="56" font-size="13" letter-spacing="4.4" fill="#7f9dc4">HOW IT CONNECTS</text>
+
+    <g>
+      <rect x="44" y="84" width="352" height="196" rx="16" fill="#0e1e33" stroke="#27476c"/>
+      <text x="72" y="124" font-size="15" fill="#7f9dc4">1 · 插件页 / Plugins page</text>
+      <text x="72" y="166" font-size="26" font-weight="bold" fill="#ffffff">dsh-rea</text>
+      <rect x="72" y="188" width="116" height="42" rx="21" fill="#123a2a" stroke="#2f7a58"/>
+      <text x="96" y="215" font-size="16" fill="#79e0b0" font-weight="bold">ON</text>
+      <rect x="200" y="188" width="116" height="42" rx="21" fill="#1a2436" stroke="#38506e"/>
+      <text x="222" y="215" font-size="16" fill="#8fa8c8" font-weight="bold">OFF</text>
+      <text x="72" y="258" font-size="14" fill="#6f8db4">one switch, profile-level</text>
+    </g>
+
+    <g transform="translate(410 170)">
+      <path d="M0 12 H34 M26 4 L36 12 L26 20" stroke="#4d7fbe" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <g>
+      <rect x="444" y="84" width="352" height="196" rx="16" fill="#0e1e33" stroke="#27476c"/>
+      <text x="472" y="124" font-size="15" fill="#7f9dc4">2 · MCP bridge row</text>
+      <text x="472" y="166" font-size="26" font-weight="bold" fill="#ffffff">rea-mcp</text>
+      <rect x="472" y="188" width="292" height="42" rx="10" fill="#0a1626" stroke="#27476c"/>
+      <text x="488" y="215" font-size="13.5" fill="#9dc2ff" font-family="Menlo, monospace">npx -y rea-agents@latest mcp</text>
+      <text x="472" y="258" font-size="14" fill="#6f8db4">stdio · 60 s per call by default</text>
+    </g>
+
+    <g transform="translate(810 170)">
+      <path d="M0 12 H34 M26 4 L36 12 L26 20" stroke="#4d7fbe" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <g>
+      <rect x="844" y="84" width="352" height="196" rx="16" fill="#0e1e33" stroke="#27476c"/>
+      <text x="872" y="124" font-size="15" fill="#7f9dc4">3 · 命名空间 / namespace</text>
+      <text x="872" y="166" font-size="26" font-weight="bold" fill="#ffffff">mcp__rea__*</text>
+      <rect x="872" y="188" width="292" height="42" rx="10" fill="#0a1626" stroke="#27476c"/>
+      <text x="888" y="215" font-size="13.5" fill="#9dc2ff" font-family="Menlo, monospace">255 tools · 6 prompts</text>
+      <text x="872" y="258" font-size="14" fill="#6f8db4">from rea-agents 6.9.0</text>
+    </g>
+
+    <g>
+      <rect x="44" y="308" width="512" height="88" rx="14" fill="#101d2e" stroke="#2b4a70"/>
+      <circle cx="78" cy="352" r="7" fill="#5c9bf0"/>
+      <text x="100" y="346" font-size="17" fill="#dbe7f6">Switch off</text>
+      <text x="100" y="372" font-size="15" fill="#7f9dc4" font-family="Menlo, monospace">0 tool schemas sent</text>
+    </g>
+
+    <g>
+      <rect x="584" y="308" width="612" height="88" rx="14" fill="#1c1730" stroke="#6d55a8"/>
+      <circle cx="618" cy="352" r="7" fill="#b39bfb"/>
+      <text x="640" y="346" font-size="17" fill="#e2d9ff">Switch on</text>
+      <text x="640" y="372" font-size="15" fill="#b6a6e8" font-family="Menlo, monospace">255 tool schemas ≈ 200K+ tokens in every request</text>
+    </g>
+  </g>
+</svg>

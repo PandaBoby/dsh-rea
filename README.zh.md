@@ -2,7 +2,7 @@
 
 **简体中文** · [English](./README.md)
 
-<img src="./icon.svg" width="88" height="88" alt="dsh-rea 图标" />
+<img src="./docs/assets/banner.png" width="880" alt="dsh-rea：255 个逆向工具藏在一个开关后面" />
 
 # dsh-rea
 
@@ -30,6 +30,13 @@
 **它是什么** —— 一行 MCP 桥接配置，被包装成 bundle，才能出现在插件页变成卡片和开关。
 **它不是什么** —— 不含分析引擎、工具实现或模型代码。所有 REA 工具都在运行时从 `rea-agents`
 包中发现。
+
+<div align="center">
+<img src="./docs/assets/how-it-connects.png" width="860" alt="插件页开关、rea-mcp 桥接行与 rea 工具命名空间之间的链路" />
+</div>
+
+三件东西串成一条链：插件页上挂着 **dsh-rea** 卡片，卡片组装出 **rea-mcp** 桥接行，桥接行才是把
+**`rea`** 命名空间带进会话的东西——开着时带 255 个工具 schema，关掉时一个都不带。
 
 ## 快速开始
 

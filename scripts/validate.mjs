@@ -145,6 +145,16 @@ for (const [name, text] of [["README.md", readme], ["README.zh.md", readmeZh]]) 
 }
 
 
+
+for (const [name, text] of [["README.md", readme], ["README.zh.md", readmeZh]]) {
+  const sources = (text.match(/<img[^>]+src="\.\/([^"]+)"/g) || []).map(function (tag) {
+    return tag.slice(tag.indexOf("src=\"") + 5, -1).replace(/^\.\//, "");
+  });
+  for (const source of sources) {
+    check(existsSync(join(root, source)), name + ": image " + source + " does not exist");
+  }
+}
+
 // Table-of-contents links are the first thing a reader clicks; a broken one is invisible in review.
 function slugify(heading) {
   return heading
